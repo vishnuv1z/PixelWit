@@ -1,0 +1,126 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  transition: all 0.25s ease-in-out;
+}
+
+/* Card polish */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover lift effect */
+.card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  opacity: 1.0;
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff !important;
+}
+
+/* LOGO TEXT */
+.logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.logo-pixel {
+  color: #ffffff;
+}
+
+.logo-wit {
+  color: #ffe927;
+}
+
+.logo-text:hover {
+  text-decoration: none;
+}
+
+.user-icon {
+  color: #ffffff;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.user-icon:hover {
+  color: #ffc107; /* bootstrap warning color */
+  transform: scale(1.1);
+}
+
+.user-dropdown-btn::after {
+  display: none !important;
+}
+
+.btn {
+  border-radius: 7px;
+  padding: 0.45rem 1.rem;
+}
+
+.btn:hover {
+  transform: scale(1.03);
+}
+
+.editor-card {
+  cursor: pointer;
+}
+
+.editor-card:hover img {
+  transform: scale(1.05);
+}
+
+.editor-card img {
+  transition: transform 0.3s ease;
+}
+
+.filter-panel {
+  border: 1px solid #000;
+  background-color: #fff;
+}
+
+.filter-panel:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.30);
+  transition: none;
+  transform: none;
+}
+
+.navbar + * {
+  padding-top: 40px;
+}
+
+.home-page {
+  margin-top: -40px;
+}
+
+footer {
+  margin-top: 60px;
+}

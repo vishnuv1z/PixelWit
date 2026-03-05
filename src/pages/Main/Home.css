@@ -1,0 +1,31 @@
+.hero-section {
+  min-height: 110vh;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
+    url("./freelancer.jpg");
+
+  background-size: 100%;
+  background-position: center 17%;
+  background-repeat: no-repeat;
+  margin-bottom: -50px;
+  margin-top: 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.hero-section h1 span {
+  color: #f7b500;
+}
+
+.hero-content {
+  animation: fadeUp 0.9s ease-out;
+}
+
+.hero-section input {
+  border: none;
+}
+
+.hero-section input:focus {
+  box-shadow: none;
+}
