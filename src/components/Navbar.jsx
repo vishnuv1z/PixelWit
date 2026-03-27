@@ -82,7 +82,7 @@ export default function Navbar() {
                 </li>
 
                 {/* USER DROPDOWN */}
-                <li className="nav-item dropdown">
+                <li className="nav-item dropdown position-static">
                   <button
                     type="button"
                     className="nav-link dropdown-toggle p-0 user-dropdown-btn"
@@ -92,13 +92,23 @@ export default function Navbar() {
                     <i className="bi bi-person-circle fs-4 user-icon"></i>
                   </button>
 
-                  <ul className="dropdown-menu dropdown-menu-end">
+                  <ul className="dropdown-menu dropdown-menu-end shadow">
                     {/* CLIENT OPTIONS */}
                     {user.role === 'CLIENT' && (
                       <>
                         <li>
+                          <Link className="dropdown-item" to="/client/dashboard">
+                            Dashboard
+                          </Link>
+                        </li>
+                        <li>
                           <Link className="dropdown-item" to="/client/requests">
                             My Requests
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" to="/client/deliverables">
+                            My Deliverables
                           </Link>
                         </li>
                       </>
@@ -106,26 +116,31 @@ export default function Navbar() {
 
                     {/* EDITOR OPTIONS */}
                     {user.role === 'EDITOR' && (
-                      <>
-                        <li>
-                          <Link className="dropdown-item" to="/editor/dashboard">
-                            Dashboard
-                          </Link>
-                        </li>
-                        <li>
+                    <>
+                      <li>
+                        <Link className="dropdown-item" to="/editor/dashboard">
+                          Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/editor/work-requests">
+                          Work Requests
+                        </Link>
+                      </li>
 
-                        <li>
-                          <Link className="dropdown-item" to="/editor/work-requests">
-                            Work Requests
-                          </Link>
-                        </li>
-                        
-                          <Link className="dropdown-item" to="/editor/edit-profile">
-                            Edit Profile
-                          </Link>
-                        </li>
-                      </>
-                    )}
+                      <li>
+                        <Link className="dropdown-item" to="/editor/deliverables">
+                          Upload Deliverables
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link className="dropdown-item" to="/editor/edit-profile">
+                          Edit Profile
+                        </Link>
+                      </li>
+                    </>
+                  )}
 
                     {/* ADMIN OPTIONS */}
                     {user.role === 'ADMIN' && (

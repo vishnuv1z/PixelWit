@@ -11,23 +11,28 @@ import AdminAnalytics from './pages/Admin/Analytics';
 import BrowseEditors from './pages/Client/BrowseEditors';
 import EditorProfile from './pages/Client/EditorProfile';
 import CreateRequest from './pages/Client/CreateRequest';
+import EditRequest from './pages/Client/EditRequest';
 import MyRequests from './pages/Client/MyRequests';
-import DashboardEditor from './pages/Editor/Dashboard';
+import ClientRequestDetails from './pages/Client/RequestDetails';
+import ClientDashboard from './pages/Client/ClientDashboard';
+import PaymentPage from './pages/Client/PaymentPage';
 import RequestsReceived from './pages/Editor/RequestsReceived';
 import RequestDetails from './pages/Editor/RequestDetails';
 import NegotiateRequest from './pages/Editor/NegotiateRequest';
 import EditProfile from './pages/Editor/EditProfile';
+import UploadDeliverable from './pages/Editor/UploadDeliverable';
+import EditorDashboard from './pages/Editor/EditorDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
-/* 👇 Layout MUST be inside BrowserRouter */
 function AppLayout() {
   const location = useLocation();
-  const showFooter = location.pathname === "/";
+  const NO_FOOTER = ['/login', '/signup/client', '/signup/editor', '/client/pay'];
+  const showFooter = !NO_FOOTER.some(path => location.pathname.startsWith(path));
 
   return (
     <>
       <Navbar />
-      
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup/editor" element={<EditorSignup />} />
@@ -36,87 +41,61 @@ function AppLayout() {
         <Route path="/client/browse" element={<BrowseEditors />} />
         <Route path="/client/editor/:id" element={<EditorProfile />} />
 
-        <Route
-          path="/client/create-request"
-          element={
-            <ProtectedRoute allowedRoles={['CLIENT']}>
-              <CreateRequest />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client/create-request" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><CreateRequest /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/client/requests"
-          element={
-            <ProtectedRoute allowedRoles={['CLIENT']}>
-              <MyRequests />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client/dashboard" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><ClientDashboard /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/client/request/:id"
-          element={
-            <ProtectedRoute allowedRoles={['CLIENT']}>
-              <RequestDetails />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client/requests" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><MyRequests /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/editor/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={['EDITOR']}>
-              <DashboardEditor />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client/request/:id" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><ClientRequestDetails /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/editor/work-requests"
-          element={
-            <ProtectedRoute allowedRoles={['EDITOR']}>
-              <RequestsReceived />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client/request/:id/edit" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><EditRequest /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/editor/request/:id"
-          element={
-            <ProtectedRoute allowedRoles={['EDITOR']}>
-              <RequestDetails/>
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/client/pay/:id" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><PaymentPage /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/editor/negotiate/:id"
-          element={
-            <ProtectedRoute allowedRoles={['EDITOR']}>
-              <NegotiateRequest/>
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/editor/dashboard" element={
+          <ProtectedRoute allowedRoles={['EDITOR']}><EditorDashboard /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/editor/edit-profile"
-          element={
-            <ProtectedRoute allowedRoles={['EDITOR']}>
-              <EditProfile />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/editor/work-requests" element={
+          <ProtectedRoute allowedRoles={['EDITOR']}><RequestsReceived /></ProtectedRoute>
+        } />
 
-        <Route
-          path="/admin/analytics"
-          element={
-            <ProtectedRoute allowedRoles={['ADMIN']}>
-              <AdminAnalytics />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/editor/request/:id" element={
+          <ProtectedRoute allowedRoles={['EDITOR']}><RequestDetails /></ProtectedRoute>
+        } />
 
+        <Route path="/editor/negotiate/:id" element={
+          <ProtectedRoute allowedRoles={['EDITOR']}><NegotiateRequest /></ProtectedRoute>
+        } />
+
+        <Route path="/editor/edit-profile" element={
+          <ProtectedRoute allowedRoles={['EDITOR']}><EditProfile /></ProtectedRoute>
+        } />
+
+        <Route path="/editor/deliverables" element={
+          <ProtectedRoute allowedRoles={['EDITOR']}><UploadDeliverable /></ProtectedRoute>
+        } />
+
+        <Route path="/client/deliverables" element={
+          <ProtectedRoute allowedRoles={['CLIENT']}><UploadDeliverable /></ProtectedRoute>
+        } />
+
+        <Route path="/admin/analytics" element={
+          <ProtectedRoute allowedRoles={['ADMIN']}><AdminAnalytics /></ProtectedRoute>
+        } />
       </Routes>
 
       {showFooter && <Footer />}

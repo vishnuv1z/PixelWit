@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
-import API from '../../api/api';
-import { AuthContext } from '../../context/AuthContext';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from "react";
+import EditorCard from "../../components/EditorCard";
+import EditorSkeleton from "../../components/EditorSkeleton";
+import API from "../../api/api";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function BrowseEditors() {
   const { user } = useContext(AuthContext);
@@ -12,53 +14,52 @@ export default function BrowseEditors() {
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔑 Search comes from Home page
-  const [search, setSearch] = useState(location.state?.search || '');
-  const [service, setService] = useState('');
-  const [minRating, setMinRating] = useState('');
-  const [maxBudget, setMaxBudget] = useState('');
+  // Pre-populate from Home page navigation state
+  const [search, setSearch]       = useState(location.state?.search  || "");
+  const [service, setService]     = useState(location.state?.service || "");
+  const [minRating, setMinRating] = useState("");
+  const [maxBudget, setMaxBudget] = useState("");
 
   useEffect(() => {
-  const fetchEditors = async () => {
-    try {
-      const res = await API.get("/api/users/editors");
-      setEditors(res.data);
-      setFiltered(res.data);
-    } catch (err) {
-      console.error("Failed to load editors", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchEditors = async () => {
+      try {
+        const res = await API.get("/users/editors"); // ✅ correct route
+        await new Promise(resolve => setTimeout(resolve, 800)); // demo delay
+        console.log("Editors from DB:", res.data);
+        setEditors(res.data);
+        setFiltered(res.data);
+      } catch (err) {
+        console.error("Failed to load editors", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchEditors();
-}, []);
+    fetchEditors();
+  }, []);
 
   useEffect(() => {
     let data = [...editors];
 
     if (search) {
       const q = search.toLowerCase();
-      data = data.filter(e =>
-        e.name.toLowerCase().includes(q) ||
-        (e.skills || []).some(skill =>
-          skill.toLowerCase().includes(q)
-        )
+      data = data.filter(
+        (e) =>
+          e.name?.toLowerCase().includes(q) ||
+          (e.skills || []).some((s) => s.toLowerCase().includes(q))
       );
     }
 
     if (service) {
-      data = data.filter(e =>
-        (e.skills || []).includes(service)
-      );
+      data = data.filter((e) => (e.skills || []).includes(service));
     }
 
     if (minRating) {
-      data = data.filter(e => Number(e.rating) >= Number(minRating));
+      data = data.filter((e) => Number(e.rating) >= Number(minRating));
     }
 
     if (maxBudget) {
-      data = data.filter(e => Number(e.hourlyRate) <= Number(maxBudget));
+      data = data.filter((e) => Number(e.hourlyRate) <= Number(maxBudget));
     }
 
     setFiltered(data);
@@ -66,53 +67,63 @@ export default function BrowseEditors() {
 
   return (
     <div className="container-fluid px-4">
-      {/* Search bar */}
+
+      {/* Search */}
       <div className="row mb-4">
         <div className="col-md-8 mx-auto">
           <div className="input-group input-group-lg">
             <input
               className="form-control"
-              placeholder="Search by editor name or services..."
+              placeholder="Search editors or skills..."
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <button className="btn btn-dark">
-              Search
-            </button>
+            <button className="btn btn-dark">Search</button>
           </div>
-
         </div>
       </div>
 
       <div className="row">
-        {/* FILTERS */}
-        <div className="col-md-3 mb-4">
-          <div className="card p-3 filter-panel">
-            <h5 className="mb-3">Filters</h5>
 
-            {/* Service */}
+        {/* FILTER PANEL */}
+        <div className="col-md-3 mb-4">
+          <div style={{
+            background: '#ffffff',
+            borderRadius: 14,
+            padding: '20px 18px',
+            border: '1px solid #000000',
+            borderTop: '1px solid #000000',
+            borderBottom: '1px solid #000000',
+            position: 'sticky',
+            top: 20
+          }}>
+            <h5 className="mb-4 fw-bold" style={{ color: '#212529' }}>Filters</h5>
+
             <div className="mb-3">
-              <label className="form-label">Service</label>
+              <label className="form-label small fw-semibold text text-muted" style={{ letterSpacing: 0.6 }}>Service</label>
               <select
-                className="form-select"
+                className="form-select form-select-sm"
                 value={service}
-                onChange={e => setService(e.target.value)}
+                onChange={(e) => setService(e.target.value)}
               >
                 <option value="">All</option>
                 <option value="Photo Editing">Photo Editing</option>
                 <option value="Video Editing">Video Editing</option>
                 <option value="Thumbnail Design">Thumbnail Design</option>
+                <option value="Reels Editing">Reels Editing</option>
                 <option value="Color Grading">Color Grading</option>
+                <option value="Poster Design">Poster Design</option>
+                <option value="After Effects">After Effects</option>
+                <option value="Premiere Pro">Premiere Pro</option>
               </select>
             </div>
 
-            {/* Rating */}
             <div className="mb-3">
-              <label className="form-label">Minimum Rating</label>
+              <label className="form-label small fw-semibold text text-muted" style={{ letterSpacing: 0.6 }}>Minimum Rating</label>
               <select
-                className="form-select"
+                className="form-select form-select-sm"
                 value={minRating}
-                onChange={e => setMinRating(e.target.value)}
+                onChange={(e) => setMinRating(e.target.value)}
               >
                 <option value="">Any</option>
                 <option value="4">4★ & above</option>
@@ -120,25 +131,24 @@ export default function BrowseEditors() {
               </select>
             </div>
 
-            {/* Budget */}
-            <div className="mb-3">
-              <label className="form-label">Max Budget (₹/hr)</label>
+            <div className="mb-4">
+              <label className="form-label small fw-semibold text text-muted" style={{ letterSpacing: 0.6 }}>Max Budget (₹/hr)</label>
               <input
                 type="number"
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="e.g. 800"
                 value={maxBudget}
-                onChange={e => setMaxBudget(e.target.value)}
+                onChange={(e) => setMaxBudget(e.target.value)}
               />
             </div>
 
             <button
-              className="btn btn-outline-secondary btn-sm"
+              className="btn btn-outline-secondary btn-sm w-100"
               onClick={() => {
-                setSearch('');
-                setService('');
-                setMinRating('');
-                setMaxBudget('');
+                setSearch("");
+                setService("");
+                setMinRating("");
+                setMaxBudget("");
               }}
             >
               Clear Filters
@@ -146,73 +156,35 @@ export default function BrowseEditors() {
           </div>
         </div>
 
-        {/* EDITOR GRID */}
+        {/* EDITORS */}
         <div className="col-md-9">
           {loading ? (
-            <div className="spinner-border text-primary" />
+            <div className="row g-4">
+              {Array(6).fill().map((_, i) => (
+                <div key={i} className="col-md-6">
+                  <EditorSkeleton />
+                </div>
+              ))}
+            </div>
           ) : filtered.length === 0 ? (
-            <div className="alert alert-info">No editors found, Try adjusting your filters or search terms.</div>
+            <div className="alert alert-info">
+              No editors found. Try adjusting your filters.
+            </div>
           ) : (
             <div className="row g-4">
-              {filtered.map(editor => (
-                <div key={editor.id} className="col-md-6">
-                  <div
-                    className="card h-100 shadow-sm border editor-card"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() =>
-                      navigate(`/client/editor/${editor.id}`)
-                    }
-                  >
-                    <div className="card-body">
-                      <div className="d-flex gap-3">
-                        <img
-                          src={editor.profilePhoto}
-                          alt="Profile"
-                          className="rounded-circle"
-                          width="70"
-                          height="70"
-                          style={{ objectFit: 'cover' }}
-                        />
-
-                        <div>
-                          <h5 className="mb-1">{editor.name}</h5>
-                          <p className="text-muted small mb-1">
-                            {editor.about}
-                          </p>
-
-                          <div className="d-flex gap-2 align-items-center">
-                            <span className="badge bg-success">
-                              ⭐ {editor.rating}
-                            </span>
-                            <span className="badge bg-info">
-                              ₹{editor.hourlyRate}/hr
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {user && user.role === 'CLIENT' && (
-                      <div className="card-footer bg-white border-0 text-end">
-                        <button
-                          className="btn btn-sm btn-outline-primary"
-                          onClick={e => {
-                            e.stopPropagation();
-                            navigate('/client/create-request', {
-                              state: { editor }
-                            });
-                          }}
-                        >
-                          Create Request
-                        </button>
-                      </div>
-                    )}
-                  </div>
+              {filtered.map((editor) => (
+                <div key={editor._id} className="col-md-6">
+                  <EditorCard
+                    editor={editor}
+                    isClient={user?.role === 'CLIENT'}
+                    onCreateRequest={(ed) => navigate('/client/create-request', { state: { editor: ed } })}
+                  />
                 </div>
               ))}
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

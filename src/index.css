@@ -8,6 +8,7 @@ html, body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: visible !important;
 }
 
 * {
@@ -16,20 +17,19 @@ html, body {
 
 /* Card polish */
 .card {
-  border: none;
+  border: 1px solid black;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 /* Hover lift effect */
 .card:hover {
-  transform: translateY(-7px);
+  transform: translateY(0px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'source-code-pro', 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
 }
 
 .navbar {
@@ -39,6 +39,8 @@ code {
   padding-top: 10px;
   padding-bottom: 10px;
   opacity: 1.0;
+  position: relative;
+  z-index: 1000;
 }
 
 .navbar .nav-link:hover {
@@ -77,7 +79,9 @@ code {
 }
 
 .user-dropdown-btn::after {
-  display: none !important;
+  position: relative;
+  z-index: 9999!important;
+  display: none;
 }
 
 .btn {
@@ -87,6 +91,69 @@ code {
 
 .btn:hover {
   transform: scale(1.03);
+}
+
+/* Skeleton loading styles */
+
+.skeleton-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  background: #f5f5f5;
+}
+
+.skeleton-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #e0e0e0;
+}
+
+.skeleton-line {
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.skeleton-name {
+  width: 140px;
+  height: 16px;
+}
+
+.skeleton-role {
+  width: 110px;
+}
+
+.skeleton-badge {
+  width: 70px;
+  height: 20px;
+  border-radius: 20px;
+  background: #e0e0e0;
+}
+
+/* Shimmer animation */
+
+.skeleton-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  animation: skeleton-loading 1.2s infinite;
+}
+
+@keyframes skeleton-loading {
+  100% {
+    transform: translateX(350px);
+  }
 }
 
 .editor-card {
@@ -104,11 +171,13 @@ code {
 .filter-panel {
   border: 1px solid #000;
   background-color: #fff;
+  position: sticky;
+  top: 100px;
 }
 
 .filter-panel:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.30);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 3.30);
   transition: none;
   transform: none;
 }

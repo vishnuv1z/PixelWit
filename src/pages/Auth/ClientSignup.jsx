@@ -52,7 +52,7 @@ export default function ClientSignup() {
 
       // ✅ Toast instead of alert
       setToast({
-        message: 'Account created successfully! Verify OTP to continue.',
+        message: 'Account created successfully!',
         type: 'success'
       });
 

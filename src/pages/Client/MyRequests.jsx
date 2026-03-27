@@ -1,19 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import api from '../../api';
+import { listClientRequests } from "../../api/requests";
 import { AuthContext } from '../../context/AuthContext';
 import RequestCard from '../../components/RequestCard';
-import { Link } from 'react-router-dom';
 
-export default function MyRequests(){
+export default function MyRequests() {
   const { user } = useContext(AuthContext);
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading,  setLoading]  = useState(true);
 
   useEffect(() => {
-    if (!user || user.role !== 'CLIENT') return;
-
-    api.listClientRequests(user.id)
-      .then(setRequests)
+    if (!user?._id) { setLoading(false); return; }
+    listClientRequests(user._id)
+      .then(res => setRequests(res.data))
       .catch(() => setRequests([]))
       .finally(() => setLoading(false));
   }, [user]);
@@ -21,9 +19,7 @@ export default function MyRequests(){
   if (!user || user.role !== 'CLIENT') {
     return (
       <div className="container-fluid px-4">
-        <div className="alert alert-danger">
-          This page is only available for clients.
-        </div>
+        <div className="alert alert-danger">This page is only available for clients.</div>
       </div>
     );
   }
@@ -32,25 +28,20 @@ export default function MyRequests(){
     <div className="container-fluid px-4" style={{ maxWidth: 900 }}>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>My Requests</h3>
-
-        <Link
-          className="btn btn-outline-primary btn-sm"
-          to="/client/create-request"
-        >
-          New Request
-        </Link>
       </div>
 
       {loading ? (
-        <div className="text-center mt-4">
-          <div className="spinner-border text-primary" />
-        </div>
+        <div className="text-center mt-4"><div className="spinner-border text-primary" /></div>
       ) : requests.length === 0 ? (
-        <div className="alert alert-info">
-          No work requests found
-        </div>
+        <div className="alert alert-info">No work requests found</div>
       ) : (
-        requests.map(req => <RequestCard key={req.id} req={req} />)
+        requests.map(req => (
+          <RequestCard
+            key={req._id}
+            req={req}
+            onDelete={id => setRequests(prev => prev.filter(r => r._id !== id))}
+          />
+        ))
       )}
     </div>
   );

@@ -35,9 +35,8 @@ export default function Login() {
       }, 1000);
 
     } catch (err) {
-
       setToast({
-        message: err.message || 'Invalid credentials',
+        message: err.response?.data?.message || 'Invalid credentials, please try again.',
         type: 'danger'
       });
 

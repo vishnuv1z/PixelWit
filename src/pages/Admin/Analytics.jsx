@@ -12,29 +12,29 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function AdminAnalytics() {
   // MOCK DATA
   const analytics = {
-    totalUsers: 4,
-    totalEditors: 3,
-    totalClients: 1,
+    totalUsers: 9,
+    totalEditors: 7,
+    totalClients: 2,
 
-    completedProjects: 96,
+    completedProjects: 13,
     projectCategories: {
-      photoEditing: 35,
-      videoEditing: 28,
-      thumbnails: 18,
-      reels: 15
+      photoEditing: 3,
+      videoEditing: 4,
+      thumbnails: 2,
+      reels: 4
     },
 
-    totalRevenue: 240000,
-    editorEarnings: 216000,
-    platformProfit: 24000,
+    totalRevenue: 18600,
+    editorEarnings: 16740,
+    platformProfit: 1860,
 
     topEditors: [
-      { name: 'Eva Robson', projects: 22 },
-      { name: 'Max Reeds', projects: 18 },
-      { name: 'Tony Adams', projects: 15 }
+      { name: 'Eva Robson', projects: 5 },
+      { name: 'Max Reeds', projects: 4 },
+      { name: 'Tony Adams', projects: 3 }
     ],
 
-    activeProjects: 7,
+    activeProjects: 3,
     averageRating: 4.6
   };
 

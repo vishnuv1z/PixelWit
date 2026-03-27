@@ -1,27 +1,37 @@
 const mongoose = require("mongoose");
 
+const DeliverableSchema = new mongoose.Schema({
+  url:          { type: String, required: true },
+  publicId:     String,
+  originalName: String,
+  fileType:     String,
+  uploadedBy:   { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  uploadedAt:   { type: Date, default: Date.now }
+});
+
 const RequestSchema = new mongoose.Schema({
+  title:       String,
+  description: String,
 
-  clientId:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"User"
+  clientId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  editorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+  proposedBudget:   Number,
+  negotiatedBudget: Number,
+  editorNote:       String,
+
+  status: {
+    type: String,
+    enum: ["PENDING_QUOTE","ACCEPTED","NEGOTIATED","IN_PROGRESS","REJECTED","DELIVERED","COMPLETED"],
+    default: "PENDING_QUOTE"
   },
 
-  editorId:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"User"
-  },
+  attachments:  [String],
+  deadline:     String,
+  deliverables: [DeliverableSchema],
 
-  service:String,
-  description:String,
-  budget:Number,
+  reviewed: { type: Boolean, default: false }
 
-  status:{
-    type:String,
-    default:"PENDING_QUOTE"
-  }
+}, { timestamps: true });
 
-},{timestamps:true});
-
-module.exports =
-mongoose.model("Request",RequestSchema);
+module.exports = mongoose.model("Request", RequestSchema);

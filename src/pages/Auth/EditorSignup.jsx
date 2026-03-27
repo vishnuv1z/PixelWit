@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ToastMessage from '../../components/ToastMessage';
 
 export default function EditorSignup() {
-  const { signup } = useContext(AuthContext);
+  const { signup, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -57,18 +57,15 @@ export default function EditorSignup() {
     try {
       await signup(form);
 
-      // ✅ Toast instead of alert
-      setToast({
-        message: 'Editor account created! Verify OTP to continue.',
-        type: 'success'
-      });
+      // Auto-login immediately after signup
+      await login({ email: form.email, password: form.password });
 
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
+      // Redirect to edit profile so editor fills their details
+      // isNew flag shows a welcome message on the profile page
+      navigate('/editor/edit-profile', { state: { isNew: true } });
 
     } catch (err) {
-      setError(err.message || 'Signup failed');
+      setError(err.response?.data?.message || err.message || 'Signup failed');
     }
   };
 

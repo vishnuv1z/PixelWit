@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
+// Maps home pill labels → exact values used in BrowseEditors service dropdown
+const SERVICE_MAP = {
+  'Photo Editing':      'Photo Editing',
+  'Video Editing':      'Video Editing',
+  'YouTube Thumbnails': 'Thumbnail Design',
+  'Instagram Reels':    'Reels Editing',
+  'Color Grading':      'Color Grading',
+  'Poster Design':      'Poster Design',
+};
+
 export default function Home() {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
@@ -12,11 +22,8 @@ export default function Home() {
       setError('Please enter a service to search');
       return;
     }
-
     setError('');
-    navigate('/client/browse', {
-      state: { search: searchText }
-    });
+    navigate('/client/browse', { state: { search: searchText.trim() } });
   };
 
   return (
@@ -39,44 +46,28 @@ export default function Home() {
                 className="form-control"
                 placeholder="What service are you looking for?"
                 value={searchText}
-                onChange={e => {
-                  setSearchText(e.target.value);
-                  if (error) setError('');
-                }}
+                onChange={e => { setSearchText(e.target.value); if (error) setError(''); }}
+                onKeyDown={e => e.key === 'Enter' && handleSearch()}
               />
               <button className="btn btn-warning" onClick={handleSearch}>
                 Search
               </button>
             </div>
-
-            {error && (
-              <div className="text-danger mt-2">
-                {error}
-              </div>
-            )}
+            {error && <div className="text-danger mt-2">{error}</div>}
           </div>
         </div>
 
-        {/* Categories */}
+        {/* Category pills — pass service separately so BrowseEditors sets the dropdown */}
         <div className="d-flex flex-wrap justify-content-center gap-2">
-          {[
-            'Photo Editing',
-            'Video Editing',
-            'YouTube Thumbnails',
-            'Instagram Reels',
-            'Color Grading',
-            'Poster Design'
-          ].map((item, index) => (
+          {Object.keys(SERVICE_MAP).map((label) => (
             <button
-              key={index}
+              key={label}
               className="btn btn-outline-light btn-sm"
               onClick={() =>
-                navigate('/client/browse', {
-                  state: { search: item }
-                })
+                navigate('/client/browse', { state: { service: SERVICE_MAP[label] } })
               }
             >
-              {item}
+              {label}
             </button>
           ))}
         </div>
