@@ -36,7 +36,7 @@ export default function RequestsReceived() {
   };
 
   return (
-    <div className="container-fluid px-4">
+    <div className="container-fluid px-4" style={{ minHeight: '100vh' }}>
       <h3 className="mb-4">Work Requests</h3>
 
       {loading && (

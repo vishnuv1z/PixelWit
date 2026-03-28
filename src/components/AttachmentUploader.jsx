@@ -104,7 +104,7 @@ export default function AttachmentUploader({ existingUrls = [], onChange }) {
         onClick={() => inputRef.current.click()}
       >
         {uploading
-          ? <span className="text-muted">⏫ Uploading…</span>
+          ? <span className="text-muted"><i class="bi bi-arrow-up-circle"></i> Uploading…</span>
           : <span className="text-muted">📎 Click to attach files <small>(images, videos, docs)</small></span>}
         <input
           ref={inputRef}

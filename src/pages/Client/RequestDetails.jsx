@@ -142,7 +142,7 @@ export default function RequestDetails() {
   const canDelete    = DELETABLE_STATUSES.includes(req.status);
 
   return (
-    <div className="container-fluid px-4 py-4" style={{ maxWidth: 760 }}>
+    <div className="container-fluid px-4 py-4" style={{ maxWidth: 760, minHeight: '100vh' }}>
 
       <button className="btn btn-link ps-0 mb-3 text-muted" onClick={() => navigate('/client/requests')}>
         ← Back to My Requests

@@ -25,7 +25,7 @@ export default function MyRequests() {
   }
 
   return (
-    <div className="container-fluid px-4" style={{ maxWidth: 900 }}>
+    <div className="container-fluid px-4" style={{ maxWidth: 900, minHeight: '100vh' }}>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>My Requests</h3>
       </div>

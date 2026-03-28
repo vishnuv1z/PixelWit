@@ -50,7 +50,7 @@ export default function ClientSignup() {
     try {
       await signup(form);
 
-      // ✅ Toast instead of alert
+
       setToast({
         message: 'Account created successfully!',
         type: 'success'
