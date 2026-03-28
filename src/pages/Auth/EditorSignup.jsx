@@ -40,9 +40,9 @@ export default function EditorSignup() {
 
   return (
     <div style={{
-      minHeight: '90vh', display: 'flex',
+      minHeight: '100vh', display: 'flex',
       alignItems: 'center', justifyContent: 'center',
-      background: '#f8f9fa', paddingBottom: '45px',
+      background: '#ffffff', paddingBottom: '45px',
     }}>
       <div style={{
         width: '100%', maxWidth: 440,

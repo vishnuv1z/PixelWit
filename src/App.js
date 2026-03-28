@@ -33,6 +33,7 @@ function AppLayout() {
     <>
       <Navbar />
 
+      <div style={{ paddingTop: 25 }}></div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup/editor" element={<EditorSignup />} />

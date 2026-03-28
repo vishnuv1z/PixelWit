@@ -27,12 +27,12 @@ export default function Login() {
 
   return (
     <div style={{
-      minHeight: '90vh',
+      minHeight: '80vh',
       display: 'flex',
       alignItems: 'flex-start',
       justifyContent: 'center',
-      paddingTop: '85px', 
-      background: '#f8f9fa',
+      paddingTop: '65px', 
+      background: '#ffffff',
     }}>
       <div style={{
         width: '100%',
