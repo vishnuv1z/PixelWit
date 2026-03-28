@@ -24,7 +24,7 @@ export default function BrowseEditors() {
     const fetchEditors = async () => {
       try {
         const res = await API.get("/users/editors"); // ✅ correct route
-        await new Promise(resolve => setTimeout(resolve, 800)); // demo delay
+        await new Promise(resolve => setTimeout(resolve, 1200)); // demo delay
         console.log("Editors from DB:", res.data);
         setEditors(res.data);
         setFiltered(res.data);
