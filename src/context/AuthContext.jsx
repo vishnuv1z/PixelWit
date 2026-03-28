@@ -21,16 +21,18 @@ export function AuthProvider({ children }) {
 
   const signup = async (form) => {
     const res = await API.post("/users/signup", form);
-    return res.data;
-  };
-
-  const login = async (form) => {
-    const res = await API.post("/users/login", form);
+    // Backend returns { message, user } — store only the user object
     persist(res.data.user);
     return res.data.user;
   };
 
-  // Called after profile save to keep context in sync
+  const login = async (form) => {
+    const res = await API.post("/users/login", form);
+    // Backend returns { message, user } — store only the user object
+    persist(res.data.user);
+    return res.data.user;
+  };
+
   const updateUser = (updatedUser) => {
     persist(updatedUser);
   };

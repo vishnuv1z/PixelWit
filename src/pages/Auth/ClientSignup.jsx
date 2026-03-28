@@ -8,10 +8,9 @@ export default function ClientSignup() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '', role: 'CLIENT' });
-  const [strength, setStrength] = useState('Weak');
-  const [error, setError]   = useState('');
-  const [toast, setToast]   = useState(null);
-  const [showPass, setShowPass]     = useState(false);
+  const [strength, setStrength]       = useState('Weak');
+  const [toast, setToast]             = useState(null);
+  const [showPass, setShowPass]       = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const checkStrength = (password) => {
@@ -24,15 +23,16 @@ export default function ClientSignup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    if (strength !== 'Strong') return setError('Please choose a strong password');
-    if (form.password !== form.confirmPassword) return setError('Passwords do not match');
+    if (strength !== 'Strong')
+      return setToast({ message: 'Please choose a strong password', type: 'danger' });
+    if (form.password !== form.confirmPassword)
+      return setToast({ message: 'Passwords do not match', type: 'danger' });
     try {
       await signup(form);
       setToast({ message: 'Account created successfully!', type: 'success' });
       setTimeout(() => navigate('/'), 1500);
     } catch (err) {
-      setError(err.message || 'Signup failed');
+      setToast({ message: err.response?.data?.message || err.message || 'Signup failed', type: 'danger' });
     }
   };
 
@@ -40,8 +40,7 @@ export default function ClientSignup() {
     <div style={{
       minHeight: '90vh', display: 'flex',
       alignItems: 'center', justifyContent: 'center',
-      background: '#f8f9fa',
-      paddingBottom: '45px',
+      background: '#f8f9fa', paddingBottom: '45px',
     }}>
       <div style={{
         width: '100%', maxWidth: 440,
@@ -54,8 +53,6 @@ export default function ClientSignup() {
           <h2 className="fw-bold mb-1">Pixel<span style={{ color: '#ffea00' }}>Wit</span></h2>
           <p className="text-muted" style={{ fontSize: 14 }}>Hire professional editors easily</p>
         </div>
-
-        {error && <div className="alert alert-danger py-2" style={{ fontSize: 13 }}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
 
@@ -162,16 +159,10 @@ export default function ClientSignup() {
             className="btn w-100 fw-semibold"
             disabled={strength !== 'Strong'}
             style={{
-              background: '#0d6efd',
-              color: '#fff',
-              borderRadius: 10,
-              padding: '10px 0',
-              fontSize: 15,
-              border: 'none',
-              transition: '0.2s',
+              background: '#0d6efd', color: '#fff',
+              borderRadius: 10, padding: '10px 0',
+              fontSize: 15, border: 'none',
             }}
-            onMouseOver={e => e.currentTarget.style.opacity = '0.9'}
-            onMouseOut={e => e.currentTarget.style.opacity = '1'}
           >
             Create Account
           </button>
@@ -180,6 +171,8 @@ export default function ClientSignup() {
         <div className="text-center mt-4" style={{ fontSize: 13 }}>
           <span className="text-muted">Already have an account? </span>
           <Link to="/login" className="fw-semibold text-decoration-none" style={{ color: '#0d6efd' }}>Log in</Link>
+          <span className="text-muted mx-2">·</span>
+          <Link to="/signup/editor" className="fw-semibold text-decoration-none" style={{ color: '#0d6efd' }}>Become an Editor</Link>
         </div>
       </div>
 

@@ -4,8 +4,24 @@ exports.register = async (req, res) => {
   try {
     const user = await User.create(req.body);
     res.status(201).json({ message: "User Created" });
+
   } catch (err) {
-    res.status(400).json({ message: "User Already Exists" });
+
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Email already exists. Please login instead."
+      });
+    }
+
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Please fill all required fields correctly."
+      });
+    }
+
+    res.status(500).json({
+      message: "Something went wrong. Try again later."
+    });
   }
 };
 

@@ -8,10 +8,9 @@ export default function EditorSignup() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '', role: 'EDITOR' });
-  const [strength, setStrength] = useState('Weak');
-  const [error, setError]   = useState('');
-  const [toast, setToast]   = useState(null);
-  const [showPass, setShowPass]     = useState(false);
+  const [strength, setStrength]       = useState('Weak');
+  const [toast, setToast]             = useState(null);
+  const [showPass, setShowPass]       = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const checkStrength = (password) => {
@@ -24,15 +23,18 @@ export default function EditorSignup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    if (strength !== 'Strong') return setError('Password must be strong to continue');
-    if (form.password !== form.confirmPassword) return setError('Passwords do not match');
+    if (strength !== 'Strong')
+      return setToast({ message: 'Password must be strong to continue', type: 'danger' });
+    if (form.password !== form.confirmPassword)
+      return setToast({ message: 'Passwords do not match', type: 'danger' });
     try {
+      // Signup — saves plain password before hashing happens on backend
       await signup(form);
+      // Auto-login with the same credentials (bcrypt.compare handles it)
       await login({ email: form.email, password: form.password });
       navigate('/editor/edit-profile', { state: { isNew: true } });
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Signup failed');
+      setToast({ message: err.response?.data?.message || err.message || 'Signup failed', type: 'danger' });
     }
   };
 
@@ -40,8 +42,7 @@ export default function EditorSignup() {
     <div style={{
       minHeight: '90vh', display: 'flex',
       alignItems: 'center', justifyContent: 'center',
-      background: '#f8f9fa',
-      paddingBottom: '45px',
+      background: '#f8f9fa', paddingBottom: '45px',
     }}>
       <div style={{
         width: '100%', maxWidth: 440,
@@ -54,8 +55,6 @@ export default function EditorSignup() {
           <h2 className="fw-bold mb-1">Pixel<span style={{ color: '#ffea00' }}>Wit</span></h2>
           <p className="text-muted" style={{ fontSize: 14 }}>Start receiving paid editing projects</p>
         </div>
-
-        {error && <div className="alert alert-danger py-2" style={{ fontSize: 13 }}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
 
@@ -162,24 +161,20 @@ export default function EditorSignup() {
             className="btn w-100 fw-semibold"
             disabled={strength !== 'Strong'}
             style={{
-              background: '#ffea00',
-              color: '#000',
-              borderRadius: 10,
-              padding: '10px 0',
-              fontSize: 15,
-              border: 'none',
-              transition: '0.2s',
+              background: '#ffea00', color: '#000',
+              borderRadius: 10, padding: '10px 0',
+              fontSize: 15, border: 'none',
             }}
-            onMouseOver={e => e.currentTarget.style.opacity = '0.9'}
-            onMouseOut={e => e.currentTarget.style.opacity = '1'}
           >
-            Create Account
+            Create Editor Account
           </button>
         </form>
 
         <div className="text-center mt-4" style={{ fontSize: 13 }}>
           <span className="text-muted">Already have an account? </span>
           <Link to="/login" className="fw-semibold text-decoration-none" style={{ color: '#0d6efd' }}>Log in</Link>
+          <span className="text-muted mx-2">·</span>
+          <Link to="/signup/client" className="fw-semibold text-decoration-none" style={{ color: '#0d6efd' }}>Join as Client</Link>
         </div>
       </div>
 
