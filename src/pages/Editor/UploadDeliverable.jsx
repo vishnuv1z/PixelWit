@@ -167,7 +167,7 @@ export default function UploadDeliverable() {
   const selectedReq = requests.find(r => r._id === selectedId);
 
   return (
-    <div className="container-fluid px-4 py-4" style={{ maxWidth: 820 }}>
+    <div className="container-fluid px-4 py-4" style={{ maxWidth: 820 , minHeight: '100vh' }}>
       <h3 className="mb-1 fw-bold">
         {isEditor ? <><i className="bi bi-upload"></i> Upload Deliverables</> : <><i className="bi bi-download"></i> My Deliverables</>}
       </h3>
