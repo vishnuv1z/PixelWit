@@ -104,3 +104,96 @@ exports.getAnalytics = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error fetching analytics" });
   }
 };
+
+// ==========================================
+// USER MANAGEMENT ENDPOINTS
+// ==========================================
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password").sort({ createdAt: -1 }).lean();
+    
+    // Enrich editors with live rating + reviewCount from the Review collection
+    const enrichedUsers = await Promise.all(
+      users.map(async (user) => {
+        if (user.role === 'EDITOR') {
+          const reviews = await Review.find({ editorId: user._id });
+          const reviewCount = reviews.length;
+          const rating = reviewCount
+            ? Math.round((reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount) * 10) / 10
+            : 0;
+          return { ...user, rating, reviewCount };
+        }
+        return user;
+      })
+    );
+
+    res.json({ success: true, data: enrichedUsers });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error fetching users" });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, role } = req.body;
+    
+    // Check if email is being updated to an existing email
+    if (email) {
+      const existing = await User.findOne({ email, _id: { $ne: id } });
+      if (existing) return res.status(400).json({ success: false, message: "Email already in use" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: { name, email, role } },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!updatedUser) return res.status(404).json({ success: false, message: "User not found" });
+
+    res.json({ success: true, data: updatedUser, message: "User updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error updating user" });
+  }
+};
+
+exports.toggleBlockUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+    user.isBlocked = !user.isBlocked;
+    await user.save();
+
+    res.json({ 
+      success: true, 
+      message: `User successfully ${user.isBlocked ? 'blocked' : 'unblocked'}` 
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error toggling block status" });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+    // Optionally cleanup references like Reviews, Requests if we want to be thorough,
+    // but a simple delete is standard unless constrained by foreign key concepts in Mongoose.
+
+    res.json({ success: true, message: "User deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error deleting user" });
+  }
+};

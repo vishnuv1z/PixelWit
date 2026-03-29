@@ -8,6 +8,7 @@ import EditorSignup from './pages/Auth/EditorSignup';
 import ClientSignup from './pages/Auth/ClientSignup';
 import Login from './pages/Auth/Login';
 import AdminAnalytics from './pages/Admin/Analytics';
+import UserManagement from './pages/Admin/UserManagement';
 import BrowseEditors from './pages/Client/BrowseEditors';
 import EditorProfile from './pages/Client/EditorProfile';
 import CreateRequest from './pages/Client/CreateRequest';
@@ -96,6 +97,10 @@ function AppLayout() {
 
         <Route path="/admin/analytics" element={
           <ProtectedRoute allowedRoles={['ADMIN']}><AdminAnalytics /></ProtectedRoute>
+        } />
+
+        <Route path="/admin/users" element={
+          <ProtectedRoute allowedRoles={['ADMIN']}><UserManagement /></ProtectedRoute>
         } />
       </Routes>
 

@@ -25,6 +25,10 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid password" });
 
+    if (user.isBlocked) {
+      return res.status(403).json({ message: "Account is blocked. Please contact support." });
+    }
+
     res.json({ message: "Login successful", user });
   } catch (err) {
     res.status(500).json(err);
@@ -59,7 +63,7 @@ exports.updateProfile = async (req, res) => {
     if (id && typeof id === 'object' && id.$oid) id = id.$oid;
     id = String(id).trim();
 
-    const allowed = ['name','about','description','hourlyRate','availability','profilePhoto','skills','isProfileComplete'];
+    const allowed = ['name','about','description','hourlyRate','availability','profilePhoto','skills'];
     const updates = {};
     allowed.forEach(k => { if (req.body[k] !== undefined) updates[k] = req.body[k]; });
 
