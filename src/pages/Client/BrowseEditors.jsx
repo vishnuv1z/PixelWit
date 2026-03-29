@@ -66,7 +66,7 @@ export default function BrowseEditors() {
   }, [search, service, minRating, maxBudget, editors]);
 
   return (
-    <div className="container-fluid px-4">
+    <div className="container-fluid px-4" style={{ minHeight: '100vh' }}>
 
       {/* Search */}
       <div className="row mb-4">
