@@ -129,7 +129,7 @@ export default function EditProfile() {
 
     setSaving(true);
     try {
-      const res = await API.put(`/users/${id}`, { ...form, hourlyRate: Number(form.hourlyRate), isProfileComplete: true });
+      const res = await API.put(`/users/${id}`, { ...form, hourlyRate: Number(form.hourlyRate) });
       updateUser(res.data.user);
       setUserId(res.data.user._id);
       showToast('success', '✅ Profile saved successfully!');

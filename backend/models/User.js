@@ -23,11 +23,7 @@ const UserSchema = new mongoose.Schema({
       src:  String
     }
   ],
-
-  rating:      { type: Number, default: 0 },
-  reviewCount: { type: Number, default: 0 },
-
-  isProfileComplete: { type: Boolean, default: false }
+  isBlocked:         { type: Boolean, default: false }
 
 }, { timestamps: true });
 
