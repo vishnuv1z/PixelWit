@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+# 🎬 PixelWit -- Freelance Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+PixelWit is a full-stack freelance platform designed to connect
+**clients** with **video editors**. Clients can post work requests, and
+editors can accept, negotiate, and deliver projects seamlessly.
 
-## Available Scripts
+------------------------------------------------------------------------
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### Authentication
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-   User signup & login (Client / Editor / Admin)
+-   Persistent login using localStorage
+-   Role-based access control
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Client Features
 
-### `npm test`
+-   Browse editors
+-   View editor profiles
+-   Create & manage work requests
+-   Edit or delete requests
+-   Track request status
+-   Make payments
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Editor Features
 
-### `npm run build`
+-   View incoming requests
+-   Accept / Reject / Negotiate offers
+-   Update profile (skills, availability, etc.)
+-   Upload deliverables
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Admin Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-   View site analytics
+-   Manage users (block, delete, change roles, etc.)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+------------------------------------------------------------------------
 
-### `npm run eject`
+## 🛠️ Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-   React.js
+-   React Router
+-   Bootstrap (UI styling)
+-   Context API (State Management)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Backend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-   Node.js
+-   Express.js
+-   MongoDB Atlas(Mongoose)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+------------------------------------------------------------------------
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## ⚙️ Installation & Setup
 
-### Code Splitting
+### 1️⃣ Clone the repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+``` bash
+git clone https://github.com/your-username/pixelwit.git
+cd pixelwit
+```
 
-### Analyzing the Bundle Size
+### 2️⃣ Setup Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+``` bash
+cd backend
+npm install
+npm start
+```
 
-### Making a Progressive Web App
+### 3️⃣ Setup Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+``` bash
+npm install
+npm start
+```
 
-### Advanced Configuration
+------------------------------------------------------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🔐 Authentication Flow
 
-### Deployment
+-   Signup → User stored in database\
+-   Login → User stored in context + localStorage\
+-   Protected routes based on user role
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+------------------------------------------------------------------------
 
-### `npm run build` fails to minify
+## 📌 Future Improvements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   JWT Authentication
+-   Payment gateway integration (Stripe/Razorpay)
+-   Advanced UI with dark mode toggle
+-   Real-time notifications
+-   Messaging/chat system
+
+------------------------------------------------------------------------
+
+## 🧠 Learnings
+
+-   Built a full MERN stack application\
+-   Implemented role-based routing\
+-   Managed global state using Context API\
+-   Designed real-world freelance workflow
+
+------------------------------------------------------------------------
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repo and submit a pull
+request.
+
+------------------------------------------------------------------------
+
+## 📧 Contact
+
+If you have any questions or suggestions, feel free to reach out.
+
+------------------------------------------------------------------------
+
+## ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub!
